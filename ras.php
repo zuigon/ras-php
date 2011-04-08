@@ -13,12 +13,8 @@
 
 <?php
 
-$file = fopen("db.conf", "r") or exit("Ne mogu otvoriti db.conf file!");
-$c = "";
-while(!feof($file))
-  $c += fgets($file);
-fclose($file);
-$cc = explode("\n", $c);
+$f = file_get_contents("db.conf") or exit("Ne mogu otvoriti db.conf file!");
+$cc = explode("\n", $f);
 list($host, $uname, $pw, $db) = explode(":", $cc[0]);
 unset($c); unset($cc);
 
