@@ -57,13 +57,14 @@ function smjena($datum){
 }
 
 function ras_table($gen, $raz, $tj){
+  global $fself;
     $q =
   sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d order by sat;", raz_id($gen, $raz));
   $r = mysql_query($q);
   if (!$r) die('Invalid query: ' . mysql_error());
 
   if (mysql_num_rows($r)==0)
-    die("<h2 class='err'>Raspored nije podesen za ovaj razred ...</h2><p><a href='$fself'>< Svi razredi</a></p>");
+    die("<h2 class='err'>Raspored nije podesen za ovaj razred ...</h2><p><a href='$fself'>&lt; Svi razredi</a></p>");
 
   echo "<div id='tj".(($tj>=2)?"N":$tj)."'>";
 
