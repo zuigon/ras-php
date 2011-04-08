@@ -1,0 +1,34 @@
+body { font-family: serif; }
+a:link, a:visited, a:active, a:hover { color: blue; }
+#tbl_ras { text-align: center; border-collapse: collapse; cursor: default; }
+.empty { color: lightgray; }
+.gray { background-color: lightgray; }
+.wgray { background-color: #eee; }
+.blue { background-color: lightblue; }
+.uline { text-decoration: underline; }
+.events_l { line-height: 1.2em; }
+.gcal_event { list-style: none; }
+.hasdesc { /*color: blue;*/ }
+.right { text-align: right; }
+ul { margin: 0 auto; list-style-type: none; padding: 0; }
+table#tbl_ras tr td .sati { margin-right: 20px; }
+.help { color: gray; text-decoration: italic; margin-left: 5px; }
+.danas { background-color: lightblue; }
+.tek_sat { color: red; }
+.ozn1 { background-color: #FFCC00; }
+.ozn_dz { background-color: red; }
+.highlight { background-color: #BFEFFF; }
+ul.svi_razredi { width: 200px; position: relative; }
+ul.svi_razredi li { padding: 10px 0; font-size: 200%; }
+ul.svi_razredi li a { text-decoration: none; color: red; font-family: georgia; text-decoration: overline underline; letter-spacing: 5px; }
+h1.err, h2.err { font-family: georgia; font-style: italic; }
+h1.raz_naslov { font-family: georgia; font-size: 1000%; float: left; margin: 0; padding: 0; }
+div#fl_d { position: relative; top: 0px; width: 200px; }
+div#varijante { clear: both; }
+span#varijante a { color: orange; margin: 0 5px; text-decoration: none; }
+span#varijante a[selected='1'] { text-decoration: underline; }
+table#t { position: relative; top: 50px; }
+div#tj0 { float: left; margin-right: 30px; }
+div#tj1 { float: left; margin-right: 30px; }
+div#tjN { float: left; }
+div.cb { clear: both; }
