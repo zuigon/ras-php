@@ -10,7 +10,6 @@
 <body>
 
 <div id='container'>
-
 <?php
 
 //error_reporting(E_ALL);
@@ -58,16 +57,13 @@ function smjena($datum){
 
 function ras_table($gen, $raz, $tj){
   global $fself;
-    $q =
-  sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d order by sat;", raz_id($gen, $raz));
+  $q = sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d order by sat;", raz_id($gen, $raz));
   $r = mysql_query($q);
   if (!$r) die('Invalid query: ' . mysql_error());
-
   if (mysql_num_rows($r)==0)
     die("<h2 class='err'>Raspored nije podesen za ovaj razred ...</h2><p><a href='$fself'>&lt; Svi razredi</a></p>");
 
   echo "<div id='tj".(($tj>=2)?"N":$tj)."'>";
-
   echo '<table border="2" id="tbl_ras">';
 
   $ras = array();
@@ -81,7 +77,7 @@ function ras_table($gen, $raz, $tj){
     array_push($eventi[$row[0]], $row);
   mysql_free_result($r);
 
-  $d = date('w', time());
+  $d = (int)date('w', time());
 
   $dani = array("Pon", "Uto", "Sri", "Cet", "Pet");
   echo "<tr><th width='20'>&nbsp;</th>";
@@ -94,19 +90,17 @@ function ras_table($gen, $raz, $tj){
   for ($i=1; $i<=5; $i++)
     echo "<th>".strftime("%d.%m.", $poc+3600*24*$i)."</th>";
 
-  echo "<tr>
-    <th>Kal.</th>";
+  echo "<tr><th>Kal.</th>";
   for ($i=1; $i<=5; $i++) {
-    echo "<th class='events_l' valign='top'><ul>\n";
+    echo "<th class='events_l' valign='top'><ul>";
     foreach($eventi[$i-1] as $arr){
       $cl = "gcal_event_li";
-      if ($arr[2])
-        $cl += " hasdesc";
+      if ($arr[2]) $cl+=" hasdesc";
 
       echo "<li".
         ($cl!="" ? " class='$cl'" : "").
         ($arr[2] ? " title='".$arr[2]."'" : "").">".
-        ($arr[2] ? "+ " : "- ").$arr[1]."</li>\n";
+        ($arr[2] ? "+ " : "- ").$arr[1]."</li>";
     }
     echo "</ul></th>";
   }
@@ -117,14 +111,12 @@ function ras_table($gen, $raz, $tj){
   for ($i=0; $i<=8; $i++) {
     echo "<tr>";
     echo "<td class='gray'>".$i.".</td>";
-    for ($ii=1; $ii<=5; $ii++)
-      echo "<td".(($d==$ii && $tj==0)?" class='danas'":"").">".strtoupper($ras[($smj==1) ? 8-$i : $i][$ii])."</td>";
-    echo "</tr>\n";
+    for ($j=1; $j<=5; $j++)
+      echo "<td".(($d==$j && $tj==0)?" class='danas'":"").">".strtoupper($ras[($smj==1) ? 8-$i : $i][$j])."</td>";
+    echo "</tr>";
   }
-  echo "</table>";
-  echo "</div>";
+  echo "</table></div>";
 }
-
 
 if (!isset($_GET['ras'])) {
   $q = "select concat(gen, '_', raz) from razredi order by gen, raz asc;";
@@ -140,8 +132,7 @@ if (!isset($_GET['ras'])) {
 
   echo "<h1>Razred: ".raz("${gen}_${raz}")."</h1><div id='rasporedi'>";
 
-  ras_table($gen, $raz, 0);
-  ras_table($gen, $raz, 1);
+  ras_table($gen, $raz, 0); ras_table($gen, $raz, 1);
 
   echo "</div>";
 
@@ -152,6 +143,8 @@ if (!isset($_GET['ras'])) {
   $tj = (int)$tj;
   if ($tj>=0 && $tj<=10)
     ras_table($gen, $raz, $tj);
+} else if (preg_match("/^\d\d\d\d_[a-z]_edit+$/", $_GET['ras'])) {
+  // TODO
 }
 
 mysql_close();
