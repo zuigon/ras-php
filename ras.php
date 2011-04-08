@@ -13,6 +13,9 @@
 
 <?php
 
+//error_reporting(E_ALL);
+//ini_set('display_errors', '1');
+
 $f = file_get_contents("db.conf") or exit("Ne mogu otvoriti db.conf file!");
 $cc = explode("\n", $f);
 list($host, $uname, $pw, $db) = explode(":", $cc[0]);
@@ -88,7 +91,7 @@ function ras_table($gen, $raz, $tj){
   echo "<th>&nbsp;</th>";
   $poc = time()-(int)(date("w", time()))*3600*24; // prvi dan tj.
   for ($i=1; $i<=5; $i++)
-    echo "<th>".strftime("%d.%m.", $poc+3600*24*($n+$i))."</th>";
+    echo "<th>".strftime("%d.%m.", $poc+3600*24*$i)."</th>";
 
   echo "<tr>
     <th>Kal.</th>";
