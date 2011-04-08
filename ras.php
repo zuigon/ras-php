@@ -4,9 +4,7 @@
   <meta content='text/html; charset=iso-8859-1' http-equiv='Content-Type' />
   <title>RasporedApp</title>
   <link href='style.css' rel='stylesheet' type='text/css' />
-  <!-- <script src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' type='text/javascript'></script> -->
   <script type='text/javascript'>
-    // $(function(){$("table#tbl_ras tr td, table#tbl_ras th.events_l").hover(function(){$(this).addClass("highlight");},function(){$(this).removeClass("highlight");})})
   </script>
 </head>
 <body>
