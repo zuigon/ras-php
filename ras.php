@@ -15,12 +15,21 @@
 
 <?php
 
+$file = fopen("db.conf", "r") or exit("Ne mogu otvoriti db.conf file!");
+$c = "";
+while(!feof($file))
+  $c += fgets($file);
+fclose($file);
+$cc = explode("\n", $c);
+list($host, $uname, $pw, $db) = explode(":", $cc[0]);
+unset($c); unset($cc);
+
 $fself = basename($_SERVER['SCRIPT_NAME']);
 
 date_default_timezone_set("Europe/Zagreb");
 
-mysql_connect("192.168.1.250", "root", "bkrsta");
-mysql_select_db("ras2_1");
+mysql_connect($host, $uname, $pw);
+mysql_select_db($db);
 
 // "2009", "a" => 1
 function raz_id($gen, $raz){
