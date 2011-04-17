@@ -8,21 +8,22 @@ require '../auth.php';
 $realm = "RasporedApp Admin";
 
 if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
-    header('HTTP/1.1 401 Unauthorized');
-    header('WWW-Authenticate: Digest realm="'.$realm.
-           '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
-    die('Text to send if user hits Cancel button');
+  cred:
+  header('HTTP/1.1 401 Unauthorized');
+  header('WWW-Authenticate: Digest realm="'.$realm.
+    '",qop="auth",nonce="'.uniqid().'",opaque="'.md5($realm).'"');
+  die('...');
 }
 
 if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])) ||
-    !isset($admins[$data['username']]))
-    die('Wrong Credentials!');
+  !isset($admins[$data['username']]))
+  die('Wrong Credentials!');
 
 $A1 = md5($data['username'] . ':' . $realm . ':' . $admins[$data['username']]);
 $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
 
-if($data['response'] != $valid_response) die('Krivi pw!');
+if($data['response'] != $valid_response) goto cred;
 
 // ok, valid username & password
 $user = $data['username'];
