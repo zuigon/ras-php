@@ -1,27 +1,11 @@
 <?php
 
-/*
-admin.php - lista razreda
-admin.php?raz=ID - lista rasporeda i varijanti
-admin.php?raz=ID&edit=r   - edit rasporeda (i varijanti)
-*/
-
-
-// require_once '../lib.php'; require_once '../dbcon.php';
-
-// $result = mysql_query("select id from rasporedi where raz_id=%d and sat=%d");
-// if(mysql_affected_rows()==0)
-  // $result = mysql_query("insert into test (col_id, col) values ('1','test');");
-// qtoa("update rasporedi set pon='a', uto='a', sri='a', cet='a', pet='a' where raz_id=2 and sat=1");
-// require_once '../lib.php'; require_once '../dbcon.php';
-// die();
-
-
 $title2 = "Admin";
-require_once '../lib.php'; require_once '../dbcon.php';
+require '../lib.php';
+require '../dbcon.php';
+require '../auth.php';
 
 $realm = "RasporedApp Admin";
-$users = array('admin' => 'bkrsta');
 
 if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
     header('HTTP/1.1 401 Unauthorized');
@@ -31,10 +15,10 @@ if (empty($_SERVER['PHP_AUTH_DIGEST'])) {
 }
 
 if (!($data = http_digest_parse($_SERVER['PHP_AUTH_DIGEST'])) ||
-    !isset($users[$data['username']]))
+    !isset($admins[$data['username']]))
     die('Wrong Credentials!');
 
-$A1 = md5($data['username'] . ':' . $realm . ':' . $users[$data['username']]);
+$A1 = md5($data['username'] . ':' . $realm . ':' . $admins[$data['username']]);
 $A2 = md5($_SERVER['REQUEST_METHOD'].':'.$data['uri']);
 $valid_response = md5($A1.':'.$data['nonce'].':'.$data['nc'].':'.$data['cnonce'].':'.$data['qop'].':'.$A2);
 
