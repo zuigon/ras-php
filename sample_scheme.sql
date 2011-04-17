@@ -48,6 +48,7 @@ CREATE TABLE `razredi` (
   `skola_id` int(11) unsigned DEFAULT NULL,
   `raz` varchar(4) NOT NULL,
   `gen` varchar(10) DEFAULT NULL,
+  `calurl` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
