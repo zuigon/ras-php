@@ -9,53 +9,18 @@
 </head>
 <body>
 
+<? if(empty($_GET)) echo "<a href='admin/admin.php'>Admin</a>" ?>
+
 <div id='container'>
 <?php
 
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
 
-$f = file_get_contents("db.conf") or exit("Ne mogu otvoriti db.conf file!");
-$cc = explode("\n", $f);
-list($host, $uname, $pw, $db) = explode(":", $cc[0]);
-unset($c); unset($cc);
-
-$fself = basename($_SERVER['SCRIPT_NAME']);
-
-date_default_timezone_set("Europe/Zagreb");
-
-mysql_connect($host, $uname, $pw);
-mysql_select_db($db);
-
-// "2009", "a" => 1
-function raz_id($gen, $raz){
-  $r = mysql_query(sprintf("select id from razredi where gen='%s' and raz='%s' limit 1;", $gen, $raz));
-  $x = mysql_fetch_row($r);
-  return $x[0];
-}
-
-// 2009_a => 2.a
-function raz($str){
-  list($a, $b) = explode('_', $str);
-  $now = time();
-  $d = mktime(0, 0, 0, 9, 1, (int)$a);
-  if ($d - $now > 0)
-    return false;
-  $x = (((int)date('y', $now)-(int)date('y', $d)));
-  return "$x.$b";
-}
-
-// date() => 0/1
-function smjena($datum){
-  $POC_DATUM = array("6.9.2010", 0);
-  $d = strptime("%d.%m.%Y", $POC_DATUM[0]);
-  $r = (abs((int)date("W", $datum) - (int)date("%W", $d)) + $POC_DATUM[1])%2;
-  if(date("w", time())=="0")
-    $r = ($r+1)%2;
-  return $r;
-}
+require_once 'lib.php'; require_once 'dbcon.php';
 
 function ras_table($gen, $raz, $tj){
+  $time_start = microtime_float();
   global $fself;
   $q = sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d order by sat;", raz_id($gen, $raz));
   $r = mysql_query($q);
@@ -71,13 +36,13 @@ function ras_table($gen, $raz, $tj){
     $ras[$row[0]] = $row;
 
   $eventi = array(0=>array(), 1=>array(), 2=>array(), 3=>array(), 4=>array(), 5=>array(), 6=>array());
-  $q = sprintf("select weekday(dan), txt, dsc from eventi where raz_id=%d and week(dan)=(week(date(now())-1)+%d);", (int)raz_id($gen, $raz), $tj);
+  $q = sprintf("select weekday(dan), txt, dsc from eventi where raz_id=%d and week(dan)=(week(date(now())-1)+%d);", raz_id($gen, $raz), $tj);
   $r = mysql_query($q);
   while ($row = mysql_fetch_row($r))
     array_push($eventi[$row[0]], $row);
   mysql_free_result($r);
 
-  $d = (int)date('w', time());
+  $d = date('w', time());
 
   $dani = array("Pon", "Uto", "Sri", "Cet", "Pet");
   echo "<tr><th width='20'>&nbsp;</th>";
@@ -116,10 +81,15 @@ function ras_table($gen, $raz, $tj){
     echo "</tr>";
   }
   echo "</table></div>";
+  $time_end = microtime_float();
+  $time = $time_end - $time_start;
+  echo "<pre>D: ras_table(): ";
+  printf("%.4lf", $time);
+  echo " seconds</pre>";
 }
 
 if (!isset($_GET['ras'])) {
-  $q = "select concat(gen, '_', raz) from razredi order by gen, raz asc;";
+  $q = "select concat(gen, '_', raz) from razredi order by gen desc, raz asc;";
   $r = mysql_query($q);
   if (!$r) die('Invalid query: ' . mysql_error());
 
