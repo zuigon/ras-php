@@ -43,7 +43,7 @@ if( isset($_GET['raz']) && isset($_GET['edit']) ){
       $razid); foreach($r as $row) $ras[$row[0]] = $row; unset($r);
   }
 } elseif( isset($_GET['noviraz']) && isset($_GET['save']) ){
-  $raz = $_POST['raz']; $gen = $_POST['gen']; $cal = $_POST['cal'];
+  $raz = $_POST['raz']; $gen = $_POST['gen']; $cal = $_POST['calurl'];
   if(!preg_match("/^20\d\d$/", $gen)) die("Krivi format generacije (/20\d\d/)");
   if(!preg_match("/^[a-z]$/", $raz)) die("Krivi format odjela (a-z ili A-Z)");
   $raz = strtolower($raz);
