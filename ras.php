@@ -20,7 +20,7 @@
 require_once 'lib.php'; require_once 'dbcon.php';
 
 function ras_table($gen, $raz, $tj){
-  $time_start = microtime_float();
+  // $time_start = microtime_float();
   global $fself;
   $q = sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d order by sat;", raz_id($gen, $raz));
   $r = mysql_query($q);
@@ -81,11 +81,11 @@ function ras_table($gen, $raz, $tj){
     echo "</tr>";
   }
   echo "</table></div>";
-  $time_end = microtime_float();
-  $time = $time_end - $time_start;
-  echo "<pre>D: ras_table(): ";
-  printf("%.4lf", $time);
-  echo " seconds</pre>";
+  // $time_end = microtime_float();
+  // $time = $time_end - $time_start;
+  // echo "<pre>D: ras_table(): ";
+  // printf("%.4lf", $time);
+  // echo " seconds</pre>";
 }
 
 if (!isset($_GET['ras'])) {
