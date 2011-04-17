@@ -47,17 +47,17 @@ function raz_id($gen, $raz=-1){
 
 // date() => 0/1
 function smjena($datum){
-  $time_start = microtime_float();
+  // $time_start = microtime_float();
   $POC_DATUM = array("6.9.2010", 0);
   $d = strptime("%d.%m.%Y", $POC_DATUM[0]);
   $r = (abs((int)date("W", $datum) - (int)date("%W", $d)) + $POC_DATUM[1])%2;
   if(date("w", time())=="0")
     $r = ($r+1)%2;
-  $time_end = microtime_float();
-  $time = $time_end - $time_start;
-  echo "<pre>D: smjena(): ";
-  printf("%.4lf", $time);
-  echo " seconds</pre>";
+  // $time_end = microtime_float();
+  // $time = $time_end - $time_start;
+  // echo "<pre>D: smjena(): ";
+  // printf("%.4lf", $time);
+  // echo " seconds</pre>";
   return $r;
 }
 
