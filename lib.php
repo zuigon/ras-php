@@ -96,4 +96,6 @@ date_default_timezone_set("Europe/Zagreb");
 
 $dani = array("Pon", "Uto", "Sri", "Cet", "Pet");
 
+$fself = basename($_SERVER['SCRIPT_NAME']);
+
 ?>
