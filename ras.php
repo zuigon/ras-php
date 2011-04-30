@@ -36,7 +36,7 @@ function ras_table($gen, $raz, $tj){
     $ras[$row[0]] = $row;
 
   $eventi = array(0=>array(), 1=>array(), 2=>array(), 3=>array(), 4=>array(), 5=>array(), 6=>array());
-  $q = sprintf("select weekday(dan), txt, dsc from eventi where raz_id=%d and week(dan)=(week(date(now())-1)+%d);", raz_id($gen, $raz), $tj);
+  $q = sprintf("select weekday(dan), txt, dsc from eventi where raz_id=%d and YEARweek(dan)=YEARweek(date(now())+%d);", raz_id($gen, $raz), $tj*7);
   $r = mysql_query($q);
   while ($row = mysql_fetch_row($r))
     array_push($eventi[$row[0]], $row);
