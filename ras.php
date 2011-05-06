@@ -51,9 +51,10 @@ function ras_table($gen, $raz, $tj){
   echo "</tr>";
 
   echo "<th>&nbsp;</th>";
-  $poc = time()-(int)(date("w", time()))*3600*24; // prvi dan tj.
+  $dan = 24*3600;
+  $poc = time()-(int)(date("w", time()))*$dan; // prvi dan tj.
   for ($i=1; $i<=5; $i++)
-    echo "<th>".strftime("%d.%m.", $poc+3600*24*$i)."</th>";
+    echo "<th>".strftime("%d.%m.", $poc+$dan*$i+$tj*$dan*7)."</th>";
 
   echo "<tr><th>Kal.</th>";
   for ($i=1; $i<=5; $i++) {
