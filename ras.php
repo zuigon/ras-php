@@ -103,7 +103,13 @@ if (!isset($_GET['ras'])) {
 
   echo "<h1>Razred: ".raz("${gen}_${raz}")."</h1><div id='rasporedi'>";
 
-  ras_table($gen, $raz, 0); ras_table($gen, $raz, 1);
+  ras_table($gen, $raz, 0);
+  echo "<div class='cb'><br /></div>";
+  ras_table($gen, $raz, 1);
+  echo "<div class='cb'><br /></div>";
+  ras_table($gen, $raz, 2);
+  echo "<div class='cb'><br /></div>";
+  ras_table($gen, $raz, 3);
 
   echo "</div>";
 
