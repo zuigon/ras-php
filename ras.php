@@ -22,7 +22,8 @@ require_once 'lib.php'; require_once 'dbcon.php';
 function ras_table($gen, $raz, $tj){
   // $time_start = microtime_float();
   global $fself;
-  $q = sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d order by sat;", raz_id($gen, $raz));
+  $q = sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d and (date(now())+%d)>=start_date order by sat;", raz_id($gen, $raz), $tj*7);
+  // echo "<pre>$q</pre>";
   $r = mysql_query($q);
   if (!$r) die('Invalid query: ' . mysql_error());
   if (mysql_num_rows($r)==0)
@@ -62,9 +63,11 @@ function ras_table($gen, $raz, $tj){
     foreach($eventi[$i-1] as $arr){
       $cl = "gcal_event_li";
       if ($arr[2]) $cl+=" hasdesc";
+      if (preg_match("/ test$/", $arr[1])) $cl+=" ev_test";
+      if (preg_match("/ odg$/", $arr[1])) $cl+=" ev_odg";
 
       echo "<li".
-        ($cl!="" ? " class='$cl'" : "").
+        ($cl     ? " class='$cl'" : "").
         ($arr[2] ? " title='".$arr[2]."'" : "").">".
         ($arr[2] ? "+ " : "- ").$arr[1]."</li>";
     }
@@ -82,11 +85,6 @@ function ras_table($gen, $raz, $tj){
     echo "</tr>";
   }
   echo "</table></div>";
-  // $time_end = microtime_float();
-  // $time = $time_end - $time_start;
-  // echo "<pre>D: ras_table(): ";
-  // printf("%.4lf", $time);
-  // echo " seconds</pre>";
 }
 
 if (!isset($_GET['ras'])) {
@@ -120,8 +118,6 @@ if (!isset($_GET['ras'])) {
   $tj = (int)$tj;
   if ($tj>=0 && $tj<=10)
     ras_table($gen, $raz, $tj);
-} else if (preg_match("/^\d\d\d\d_[a-z]_edit+$/", $_GET['ras'])) {
-  // TODO
 }
 
 mysql_close();

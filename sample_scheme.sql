@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS `rasporedi`;
 CREATE TABLE `rasporedi` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `raz_id` int(11) unsigned NOT NULL,
+  `start_date` timestamp NULL DEFAULT NULL,
   `sat` tinyint(3) unsigned DEFAULT NULL,
   `pon` varchar(10) DEFAULT NULL,
   `uto` varchar(10) DEFAULT NULL,
@@ -38,7 +39,7 @@ CREATE TABLE `rasporedi` (
   `pet` varchar(10) DEFAULT NULL,
   `sub` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=75 DEFAULT CHARSET=latin1;
 
 # razredi
 # ------------------------------------------------------------
