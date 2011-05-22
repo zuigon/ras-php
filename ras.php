@@ -19,22 +19,22 @@
 
 require_once 'lib.php'; require_once 'dbcon.php';
 
+
 function ras_table($gen, $raz, $tj){
   // $time_start = microtime_float();
   global $fself;
-  $q = sprintf("select sat, pon, uto, sri, cet, pet, sub from rasporedi where raz_id=%d and (date(now())+%d)>=start_date order by sat;", raz_id($gen, $raz), $tj*7);
+  // $q = sprintf("select * from rasporedi where raz_id=%d and (date(now())+%d)>=start_date order by id desc limit 9", raz_id($gen, $raz), $tj*7);
   // echo "<pre>$q</pre>";
   $r = mysql_query($q);
-  if (!$r) die('Invalid query: ' . mysql_error());
-  if (mysql_num_rows($r)==0)
+  // if (!$r) die('Invalid query: ' . mysql_error());
+  // if (mysql_num_rows($r)==0)
+
+  $ras = getRas(raz_id($gen, $raz), $tj);
+  if(!$ras)
     die("<h2 class='err'>Raspored nije podesen za ovaj razred ...</h2><p><a href='$fself'>&lt; Svi razredi</a></p>");
 
   echo "<div id='tj".(($tj>=2)?"N":$tj)."'>";
   echo '<table border="2" id="tbl_ras">';
-
-  $ras = array();
-  while ($row = mysql_fetch_row($r))
-    $ras[$row[0]] = $row;
 
   $eventi = array(0=>array(), 1=>array(), 2=>array(), 3=>array(), 4=>array(), 5=>array(), 6=>array());
   $q = sprintf("select weekday(dan), txt, dsc from eventi where raz_id=%d and YEARweek(dan)=YEARweek(date(now())+%d);", raz_id($gen, $raz), $tj*7);
@@ -77,11 +77,13 @@ function ras_table($gen, $raz, $tj){
 
   $smj = smjena(time()+3600*24*7*$tj);
 
+  $dani = array("pon", "uto", "sri", "cet", "pet");
+
   for ($i=0; $i<=8; $i++) {
     echo "<tr>";
     echo "<td class='gray'>".$i.".</td>";
-    for ($j=1; $j<=5; $j++)
-      echo "<td".(($d==$j && $tj==0)?" class='danas'":"").">".strtoupper($ras[($smj==1) ? 8-$i : $i][$j])."</td>";
+    for ($j=0; $j<5; $j++)
+      echo "<td".(($d==$j && $tj==0)?" class='danas'":"").">".strtoupper($ras[$dani[$j]][($smj==1) ? 8-$i : $i])."</td>";
     echo "</tr>";
   }
   echo "</table></div>";

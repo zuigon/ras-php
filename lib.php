@@ -98,4 +98,25 @@ $dani = array("Pon", "Uto", "Sri", "Cet", "Pet");
 
 $fself = basename($_SERVER['SCRIPT_NAME']);
 
+
+function getRas($raz_id, $tj=0){
+  $q = "select * from rasporedi where raz_id=".$raz_id." and date_add(date(DATE_SUB(now(), INTERVAL DATE_FORMAT(now(), '%w') DAY)), interval ".$tj." week)>=start_date order by start_date desc limit 1";
+  echo "<pre>$q</pre>";
+  $r = mysql_query($q);
+  if(!$r || mysql_num_rows($r)==0) return 0;
+  $h = mysql_fetch_assoc($r);
+  $r = array(); // ["pon"=>[...], ...]
+  $dani = array("pon", "uto", "sri", "cet", "pet");
+  foreach($dani as $d)
+    if($h[$d]){
+      $r[$d] = explode(";", $h[$d]);
+    } else { // ako je lista za taj dan prazna => [""]*9
+      $r[$d] = array();
+      for($i=0; $i<9; $i++)
+        array_push($r[$d], "");
+    }
+  // mysql_free_result($r);
+  return $r;
+}
+
 ?>
