@@ -83,7 +83,7 @@ function ras_table($gen, $raz, $tj){
     echo "<tr>";
     echo "<td class='gray'>".$i.".</td>";
     for ($j=0; $j<5; $j++)
-      echo "<td".(($d==$j && $tj==0)?" class='danas'":"").">".strtoupper($ras[$dani[$j]][($smj==1) ? 8-$i : $i])."</td>";
+      echo "<td".(($d==$j+1 && $tj==0)?" class='danas'":"").">".strtoupper($ras[$dani[$j]][($smj==1) ? 8-$i : $i])."</td>";
     echo "</tr>";
   }
   echo "</table></div>";
