@@ -100,8 +100,10 @@ $fself = basename($_SERVER['SCRIPT_NAME']);
 
 
 function getRas($raz_id, $tj=0){
-  $q = "select * from rasporedi where raz_id=".$raz_id." and date_add(date(DATE_SUB(now(), INTERVAL DATE_FORMAT(now(), '%w') DAY)), interval ".$tj." week)>=start_date order by start_date desc limit 1";
-  // echo "<pre>$q</pre>";
+  if($tj==0)
+    $q = "select * from rasporedi where raz_id=".$raz_id." and date(DATE_SUB(now(), INTERVAL DATE_FORMAT(now(), '%w')-1 DAY))>=start_date order by start_date desc limit 1";
+  else
+    $q = "select * from rasporedi where raz_id=".$raz_id." and date_add(date(DATE_SUB(now(), INTERVAL DATE_FORMAT(now(), '%w')-1 DAY)), interval ".$tj." week)>=start_date order by start_date desc limit 1";
   $r = mysql_query($q);
   if(!$r || mysql_num_rows($r)==0) return 0;
   $h = mysql_fetch_assoc($r);
