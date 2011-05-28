@@ -33,9 +33,6 @@ function ras_table($gen, $raz, $tj){
   if(!$ras)
     die("<h2 class='err'>Raspored nije podesen za ovaj razred ...</h2><p><a href='$fself'>&lt; Svi razredi</a></p>");
 
-  echo "<div id='tj".(($tj>=2)?"N":$tj)."'>";
-  echo '<table border="2" id="tbl_ras">';
-
   $eventi = array(0=>array(), 1=>array(), 2=>array(), 3=>array(), 4=>array(), 5=>array(), 6=>array());
   $q = sprintf("select weekday(dan), txt, dsc from eventi where raz_id=%d and YEARweek(dan)=YEARweek(date(now())+%d);", raz_id($gen, $raz), $tj*7);
   $r = mysql_query($q);
@@ -44,6 +41,9 @@ function ras_table($gen, $raz, $tj){
   mysql_free_result($r);
 
   $d = date('w', time());
+
+  echo "<div id='tj".(($tj>=2)?"N":$tj)."'>";
+  echo '<table border="2" id="tbl_ras">';
 
   $dani = array("Pon", "Uto", "Sri", "Cet", "Pet");
   echo "<tr><th width='20'>&nbsp;</th>";
